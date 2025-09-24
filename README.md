@@ -9,8 +9,8 @@ The project provides dashboards, product tracking, sales and purchase summaries,
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/username/repo-name.git
-cd repo-name
+git clone https://github.com/laststonedjs/tracksy.git
+cd tracksy
 ```
 ### 2.Backend setup (/server)
 Navigate to the server folder:
