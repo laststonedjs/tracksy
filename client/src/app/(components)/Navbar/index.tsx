@@ -3,6 +3,7 @@
 import { useAppDispatch, useAppSelector } from '@/app/redux'
 import { setIsSidebarCollapsed } from '@/state'
 import { Bell, Menu, Search } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
@@ -48,7 +49,12 @@ const Navbar = () => {
                 {/* image placeholder */}
                 <div className='flex items-center gap-3 cursor-pointer'>
                     <div className='w-9 h-9'>
-                        image
+                        <Image 
+                            src="/profile.jpg"
+                            alt='profile-img'
+                            width={50}
+                            height={50}
+                        />
                     </div>
                     <span className='font-semibold'>Filip</span>
                 </div>
