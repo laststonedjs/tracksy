@@ -81,7 +81,7 @@ const Products = () => {
                     >
                         <div className="flex flex-col items-center">
                             <Image 
-                                src={`/products/product${(index % 3) + 1}.png`}
+                                src={`/products/product${(index % 3) + 1}.jpg`}
                                 alt={product.name}
                                 width={128}
                                 height={128}
