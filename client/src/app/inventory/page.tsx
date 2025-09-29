@@ -1,10 +1,27 @@
 "use client"
 
-import { useGetProductsQuery } from "@/state/api"
+import { useGetProductsQuery, useDeleteProductMutation } from "@/state/api"
 import Header from "@/app/(components)/Header";
+import { Button } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import DeleteButton from "../(components)/DeleteButton";
 
-const columns: GridColDef[] = [
+const Inventory = () => {
+  const { data: products, isError, isLoading } = useGetProductsQuery();
+  console.log("Products:", products);
+
+  const [deleteProduct] = useDeleteProductMutation();
+
+  const handleDelete = async (id: string | number) => {
+    try {
+      await deleteProduct(String(id)).unwrap();
+      console.log(`Product ${id} deleted successfully`);
+    } catch (error) {
+      console.error("Failed to delete product:", error);
+    }
+  }
+
+  const columns: GridColDef[] = [
     { field: "productId", headerName: "ID", width: 90},
     { field: "name", headerName: "Product Name", width: 200},
     { field: "price", 
@@ -24,11 +41,19 @@ const columns: GridColDef[] = [
       width: 150, 
       type: "number"
     },
+    {
+      field: "actions",
+      headerName: "Actions",
+      width: 120,
+      renderCell: (params) => (
+        <DeleteButton 
+          id={params.row.productId}
+          onDelete={handleDelete}
+          label="Remove"
+        />
+      )
+    }
 ]
-
-const Inventory = () => {
-  const { data: products, isError, isLoading } = useGetProductsQuery();
-  console.log("Products:", products);
 
   if(isLoading) {
     return <div className="py-4">Loading...</div>

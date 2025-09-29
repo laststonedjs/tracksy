@@ -51,15 +51,27 @@ export const api = createApi({
              }),
             providesTags: ["Products"]
         }),
-        createProduct: build.mutation<Product, NewProduct>({ // creating a product
+        createProduct: build.mutation<Product, NewProduct>({ // creating product
             query: (NewProduct) => ({
                 url: "/products",
                 method: "POST",
                 body: NewProduct
             }),
             invalidatesTags: ["Products"] // every time we create a product, need to update the list of Products
+        }),
+        deleteProduct: build.mutation<{ success: boolean; productId: string }, string>({ // deleting product
+            query: (productId) => ({
+                url: `/products/${productId}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["Products"] // refreshing the list
         })
     }),
 })
 
-export const { useGetDashboardMetricsQuery, useGetProductsQuery, useCreateProductMutation } = api;
+export const { 
+    useGetDashboardMetricsQuery, 
+    useGetProductsQuery, 
+    useCreateProductMutation, 
+    useDeleteProductMutation 
+} = api;
