@@ -34,4 +34,29 @@ export const createProduct = async (req, res) => {
         res.status(500).json({ message: "Error creating product" });
     }
 };
+export const deleteProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log("DELETE product id:", req.params.id);
+        if (!id) {
+            res.status(400).json({ message: "Missing product id" });
+            return;
+        }
+        const product = await prisma.products.findUnique({
+            where: { productId: id }
+        });
+        if (!product) {
+            res.status(404).json({ message: "Product not found" });
+            return;
+        }
+        await prisma.products.delete({
+            where: { productId: String(id) }
+        });
+        res.json({ success: true, productId: id });
+    }
+    catch (error) {
+        // console.error("Delete product error:", error);
+        res.status(500).json({ message: "Error deleting product" });
+    }
+};
 //# sourceMappingURL=productController.js.map

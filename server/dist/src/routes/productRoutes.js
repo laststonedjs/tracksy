@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { createProduct, getProducts } from "../controllers/productController.js";
+import { createProduct, deleteProduct, getProducts } from "../controllers/productController.js";
 const router = Router();
 router.get("/", getProducts);
 router.post("/", createProduct);
+router.delete("/:id", deleteProduct);
 export default router;
 //# sourceMappingURL=productRoutes.js.map
