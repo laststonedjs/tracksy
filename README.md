@@ -58,6 +58,18 @@ npm run seed
   <li><strong>Others:</strong> Helmet, Morgan, CORS</li>
 </ul>
 
+## 📸 Screenshots  
+
+<p align="center">
+  <img src="./client/public/screen1.png" alt="Dashboard" width="45%" style="border-radius:10px; margin:10px;" />
+  <img src="./client/public/screen2.png" alt="Products Page" width="45%" style="border-radius:10px; margin:10px;" />
+</p>
+
+<p align="center">
+  <img src="./client/public/screen3.png" alt="Analytics" width="45%" style="border-radius:10px; margin:10px;" />
+  <img src="./client/public/screen4.png" alt="Inventory View" width="45%" style="border-radius:10px; margin:10px;" />
+</p>
+
 
 
 
