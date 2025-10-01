@@ -1,16 +1,30 @@
 "use client"
 
-import { useGetProductsQuery, useDeleteProductMutation } from "@/state/api"
+import { useState } from "react";
+import { useGetProductsQuery, useDeleteProductMutation, useUpdateProductMutation } from "@/state/api"
 import Header from "@/app/(components)/Header";
 import { Button } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeleteButton from "../(components)/DeleteButton";
+import UpdateProductModal from "./UpdateProductModal";
+
+interface Product {
+  productId: string;
+  name: string;
+  price: number;
+  stockQuantity: number;
+  rating: number;
+}
 
 const Inventory = () => {
   const { data: products, isError, isLoading } = useGetProductsQuery();
   console.log("Products:", products);
 
   const [deleteProduct] = useDeleteProductMutation();
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  const [updateProduct] = useUpdateProductMutation();
 
   const handleDelete = async (id: string | number) => {
     try {
@@ -19,7 +33,16 @@ const Inventory = () => {
     } catch (error) {
       console.error("Failed to delete product:", error);
     }
-  }
+  };
+
+  const handleUpdate = async (productData: Product) => {
+    try {
+      await updateProduct(productData).unwrap();
+      console.log(`Product ${productData.productId} updated successfully`);
+    } catch (error) {
+      console.error("Failed to update product:", error);
+    }
+  };
 
   const columns: GridColDef[] = [
     { field: "productId", headerName: "ID", width: 90},
@@ -44,13 +67,25 @@ const Inventory = () => {
     {
       field: "actions",
       headerName: "Actions",
-      width: 120,
+      width: 200,
       renderCell: (params) => (
-        <DeleteButton 
-          id={params.row.productId}
-          onDelete={handleDelete}
-          label="Remove"
-        />
+        <div className="flex gap-2">
+          <Button 
+            variant="contained" 
+            color="primary" 
+            onClick={() => {
+              setSelectedProduct(params.row);
+              setIsUpdateOpen(true);
+            }}
+          >
+            Edit
+          </Button>
+          <DeleteButton 
+            id={params.row.productId}
+            onDelete={handleDelete}
+            label="Remove"
+          />
+        </div>
       )
     }
 ]
@@ -76,6 +111,14 @@ const Inventory = () => {
             getRowId={(row) => row.productId}
             checkboxSelection
             className="bg-white shadow rounded-lg border border-gray-200 mt-5 !text-gray-700"
+        />
+
+
+        <UpdateProductModal 
+          isOpen={isUpdateOpen} 
+          onClose={() => setIsUpdateOpen(false)} 
+          product={selectedProduct} 
+          onUpdate={handleUpdate} 
         />
     </div>
   )

@@ -59,4 +59,19 @@ export const deleteProduct = async (req, res) => {
         res.status(500).json({ message: "Error deleting product" });
     }
 };
+export const updateProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, price, rating, stockQuantity } = req.body;
+        const updatedProduct = await prisma.products.update({
+            where: { productId: String(id) },
+            data: { name, price, rating, stockQuantity },
+        });
+        res.json(updatedProduct);
+    }
+    catch (error) {
+        console.error("Update product error:", error);
+        res.status(500).json({ error: "Failed to update product" });
+    }
+};
 //# sourceMappingURL=productController.js.map

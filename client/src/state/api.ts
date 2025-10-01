@@ -65,6 +65,14 @@ export const api = createApi({
                 method: "DELETE",
             }),
             invalidatesTags: ["Products"] // refreshing the list
+        }),
+        updateProduct: build.mutation<Product, Partial<Product> & { productId: string }> ({
+            query: ({ productId, ...rest }) => ({
+                url: `/products/${productId}`,
+                method: "PUT",
+                body: rest,
+            }),
+            invalidatesTags: ["Products"]
         })
     }),
 })
@@ -73,5 +81,6 @@ export const {
     useGetDashboardMetricsQuery, 
     useGetProductsQuery, 
     useCreateProductMutation, 
-    useDeleteProductMutation 
+    useDeleteProductMutation,
+    useUpdateProductMutation 
 } = api;
